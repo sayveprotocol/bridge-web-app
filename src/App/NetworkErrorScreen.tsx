@@ -94,31 +94,7 @@ const NetworkErrorScreen = (): ReactElement => {
     setShowError(false)
   }
 
-  const checkIfServerAvailable = async (): Promise<{
-    success: boolean
-    errorMessage?: string
-  }> => {
-    try {
-      _.forEach(
-        [
-          { name: 'Shuttle Pairs Json', value: shuttlePairs },
-          { name: 'Terra Whitelist Json', value: terraWhiteList },
-          { name: 'Ethereum Whitelist Json', value: ethWhiteList },
-          { name: 'BSC Whitelist Json', value: bscWhiteList },
-        ],
-        (item) => {
-          if (_.isEmpty(item.value)) {
-            throw new Error(`Error: "${item.name}" data does not exist.`)
-          }
-        }
-      )
-    } catch (error) {
-      Sentry.captureException(error)
-      return {
-        success: false,
-        errorMessage: _.toString(error),
-      }
-    }
+
 
     const fetchUrl =
       NETWORK.terra_networks[isTestnet ? 'testnet' : 'mainnet'].mantle
