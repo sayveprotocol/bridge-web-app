@@ -96,24 +96,6 @@ const NetworkErrorScreen = (): ReactElement => {
 
 
 
-    const fetchUrl =
-      NETWORK.terra_networks[isTestnet ? 'testnet' : 'mainnet'].mantle
-    try {
-      await fetch(fetchUrl)
-
-      return {
-        success: true,
-      }
-    } catch (error) {
-      const errorMessage = `Error: ${fetchUrl} is error\nMessage: ${error}`
-      Sentry.captureException(errorMessage)
-      return {
-        success: false,
-        errorMessage,
-      }
-    }
-  }
-
   useEffect(() => {
     if (isOnline) {
       setShowError(false)
