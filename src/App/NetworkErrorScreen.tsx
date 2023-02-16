@@ -94,7 +94,28 @@ const NetworkErrorScreen = (): ReactElement => {
     setShowError(false)
   }
 
+  const checkIfServerAvailable = async (): Promise<{
+    success: boolean
+    errorMessage?: string
+  }> => {
+    try {
+    const fetchUrl =
+      NETWORK.terra_networks[isTestnet ? 'testnet' : 'mainnet'].mantle
+    try {
+      await fetch(fetchUrl)
 
+      return {
+        success: true,
+      }
+    } catch (error) {
+      const errorMessage = `Error: ${fetchUrl} is error\nMessage: ${error}`
+      Sentry.captureException(errorMessage)
+      return {
+        success: false,
+        errorMessage,
+      }
+    }
+  }
 
   useEffect(() => {
     if (isOnline) {
